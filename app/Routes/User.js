@@ -2,6 +2,7 @@ const Route = use('Route')
 
 const user = () => {
   Route.get('/', 'UserController.index')
+  Route.get('/me', 'UserController.me')
   Route.get('/:id', 'UserController.show')
 
   Route.post('/', 'UserController.store').middleware(['validateUser'])

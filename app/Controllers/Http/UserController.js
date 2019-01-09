@@ -17,6 +17,12 @@ class UserController {
     })
   }
 
+  async me({ response, params: { id }, auth }) {
+    return response.status(200).json({
+      auth: auth.user
+    })
+  }
+
   async show({ response, params: { id } }) {
     const user = await User.find(id)
 
