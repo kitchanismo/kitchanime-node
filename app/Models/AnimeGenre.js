@@ -3,12 +3,12 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class PostGenre extends Model {
+class AnimeGenre extends Model {
   static get hidden() {
-    return ['post_id', 'genre_id']
+    return ['anime_id', 'genre_id']
   }
   static get table() {
-    return 'post_genre'
+    return 'anime_genre'
   }
 
   static get Serializer() {
@@ -16,4 +16,4 @@ class PostGenre extends Model {
   }
 }
 
-module.exports = PostGenre
+module.exports = AnimeGenre

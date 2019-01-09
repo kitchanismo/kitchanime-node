@@ -1,15 +1,15 @@
 'use strict'
 
-const Post = use('App/Models/Post')
+const Anime = use('App/Models/Anime')
 const Database = use('Database')
 const BadRequest = use('App/Exceptions/BadRequestException')
 const NotFound = use('App/Exceptions/NotFoundException')
 
-class PostController {
+class AnimeController {
   async genres({ request, response }) {
-    const { post } = request.get()
+    const { anime } = request.get()
 
-    let genres = await post
+    let genres = await anime
       .genres()
       .fetch()
       .then(data => data.toJSON())
@@ -20,9 +20,9 @@ class PostController {
   }
 
   async studios({ request, response }) {
-    const { post } = request.get()
+    const { anime } = request.get()
 
-    let studios = await post
+    let studios = await anime
       .studios()
       .fetch()
       .then(data => data.toJSON())
@@ -35,18 +35,18 @@ class PostController {
   async paginate({ params: { num }, response, request, utils }) {
     const { limit = 15 } = request.get()
 
-    let posts = await Post.query()
+    let animes = await Anime.query()
       .with('genres')
       .with('studios')
       .paginate(num, limit)
       .then(data => data.toJSON())
 
-    if (+num > +posts.lastPage) {
+    if (+num > +animes.lastPage) {
       throw new NotFound(`Page ${num} not found`)
     }
 
     let pageData = {
-      lastPage: posts.lastPage,
+      lastPage: animes.lastPage,
       url: request.url(),
       num
     }
@@ -54,13 +54,13 @@ class PostController {
     const nextUrl = utils.getNextUrl(pageData)
     const prevUrl = utils.getPrevUrl(pageData)
 
-    const count = Object.keys(posts.data).length
+    const count = Object.keys(animes.data).length
 
     const data = {
       prevUrl,
       nextUrl,
       count,
-      ...posts
+      ...animes
     }
 
     response.status(200).json({
@@ -71,28 +71,28 @@ class PostController {
   async index({ response, request }) {
     const { title = '' } = request.get()
 
-    const posts = await Post.query()
+    const animes = await Anime.query()
       .with('genres')
       .with('studios')
       .having('title', 'like', `%${title}%`)
       .fetch()
       .then(data => data.toJSON())
 
-    const count = Object.keys(posts).length
+    const count = Object.keys(animes).length
 
     response.status(200).json({
       count,
-      posts
+      animes
     })
   }
 
   async show({ request, response }) {
-    let { post } = request.get()
+    let { anime } = request.get()
 
-    await post.loadMany(['studios', 'genres'])
+    await anime.loadMany(['studios', 'genres'])
 
     response.status(200).json({
-      post
+      anime
     })
   }
 
@@ -110,7 +110,7 @@ class PostController {
 
     const trx = await Database.beginTransaction()
 
-    const post = await Post.create(
+    const anime = await Anime.create(
       {
         title,
         description,
@@ -123,8 +123,8 @@ class PostController {
     )
 
     try {
-      await post.genres().attach(genreIds, null, trx)
-      await post.studios().attach(studioIds, null, trx)
+      await anime.genres().attach(genreIds, null, trx)
+      await anime.studios().attach(studioIds, null, trx)
     } catch (error) {
       trx.rollback()
       if (!error.sqlMessage) throw new Error(error.message)
@@ -142,16 +142,16 @@ class PostController {
 
     trx.commit()
 
-    await post.loadMany(['studios', 'genres'])
+    await anime.loadMany(['studios', 'genres'])
 
     response.status(201).json({
       message: 'post created',
-      post
+      anime
     })
   }
 
   async update({ request, response }) {
-    const { post } = request.get()
+    const { anime } = request.get()
 
     const {
       title,
@@ -166,7 +166,7 @@ class PostController {
 
     const trx = await Database.beginTransaction()
 
-    post.merge({
+    anime.merge({
       title,
       description,
       season,
@@ -175,11 +175,11 @@ class PostController {
       releaseDate
     })
 
-    await post.save(trx)
+    await anime.save(trx)
 
     try {
-      await post.genres().sync(genreIds, null, trx)
-      await post.studios().sync(studioIds, null, trx)
+      await anime.genres().sync(genreIds, null, trx)
+      await anime.studios().sync(studioIds, null, trx)
     } catch (error) {
       trx.rollback()
       if (!error.sqlMessage) throw new Error(error.message)
@@ -189,22 +189,22 @@ class PostController {
 
     trx.commit()
 
-    await post.loadMany(['studios', 'genres'])
+    await anime.loadMany(['studios', 'genres'])
 
     response.status(201).json({
-      message: 'Post updated',
-      post
+      message: 'anime updated',
+      anime
     })
   }
 
   async destroy({ request, response }) {
-    const { post } = request.get()
+    const { anime } = request.get()
 
-    await post.delete()
+    await anime.delete()
 
     response.json({
       message: 'post deleted',
-      id: post.id
+      id: anime.id
     })
   }
 }

@@ -13,9 +13,9 @@ class Genre extends Model {
     return ['id', 'name']
   }
 
-  posts() {
-    return this.belongsToMany('App/Models/Post').pivotModel(
-      'App/Models/PostGenre'
+  animes() {
+    return this.belongsToMany('App/Models/Anime').pivotModel(
+      'App/Models/AnimeGenre'
     )
   }
 

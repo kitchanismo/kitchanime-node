@@ -34,8 +34,8 @@ const globalMiddleware = ['Adonis/Middleware/BodyParser']
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
-  findPost: 'App/Middleware/FindPost',
-  validatePost: 'App/Middleware/ValidatePost',
+  findAnime: 'App/Middleware/FindAnime',
+  validateAnime: 'App/Middleware/ValidateAnime',
   findGenre: 'App/Middleware/FindGenre',
   validateModel: 'App/Middleware/ValidateModel',
   findStudio: 'App/Middleware/FindStudio',

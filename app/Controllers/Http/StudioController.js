@@ -18,23 +18,23 @@ class StudioController {
     })
   }
 
-  async posts({ response, request }) {
+  async animes({ response, request }) {
     const { studio } = request.get()
 
-    const posts = await studio
-      .posts()
+    const animes = await studio
+      .animes()
       .with('studios')
       .with('genres')
       .fetch()
       .then(data => data.toJSON())
 
-    posts.map(p => {
+    animes.map(p => {
       p.studios.map(s => delete s.pivot)
       p.genres.map(g => delete g.pivot)
     })
 
     response.status(200).json({
-      posts
+      animes
     })
   }
 

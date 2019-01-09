@@ -3,13 +3,13 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class PostStudio extends Model {
+class AnimeStudio extends Model {
   static get hidden() {
-    return ['post_id', 'studio_id']
+    return ['anime_id', 'studio_id']
   }
   static get table() {
-    return 'post_studio'
+    return 'anime_studio'
   }
 }
 
-module.exports = PostStudio
+module.exports = AnimeStudio

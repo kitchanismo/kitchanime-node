@@ -1,4 +1,4 @@
-"use strict";
+'use strict'
 
 /*
 |--------------------------------------------------------------------------
@@ -12,29 +12,29 @@
 */
 
 /** @type {import('@adonisjs/lucid/src/Factory')} */
-const Factory = use("Factory");
+const Factory = use('Factory')
 
-Factory.blueprint("App/Models/User", faker => {
+Factory.blueprint('App/Models/User', faker => {
   return {
-    username: "kitchan",
-    password: "123456",
-    email: "kitchanismo@gmail.com"
-  };
-});
+    username: 'kitchan',
+    password: '123456',
+    email: 'kitchanismo@gmail.com'
+  }
+})
 
-Factory.blueprint("App/Models/Genre", faker => {
-  return {
-    name: faker.word()
-  };
-});
-
-Factory.blueprint("App/Models/Studio", faker => {
+Factory.blueprint('App/Models/Genre', faker => {
   return {
     name: faker.word()
-  };
-});
+  }
+})
 
-Factory.blueprint("App/Models/Post", faker => {
+Factory.blueprint('App/Models/Studio', faker => {
+  return {
+    name: faker.word()
+  }
+})
+
+Factory.blueprint('App/Models/Anime', faker => {
   return {
     title: faker.name(),
     description: faker.paragraph(),
@@ -42,5 +42,5 @@ Factory.blueprint("App/Models/Post", faker => {
     type: faker.word(),
     imageUrl: faker.sentence(),
     releaseDate: Date.now()
-  };
-});
+  }
+})

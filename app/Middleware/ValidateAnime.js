@@ -2,7 +2,7 @@
 
 const { validateAll, sanitize } = use('Validator')
 
-class ValidatePost {
+class ValidateAnime {
   get sanitizationRules() {
     return {
       title: 'strip_tags|escape|strip_links',
@@ -47,4 +47,4 @@ class ValidatePost {
   }
 }
 
-module.exports = ValidatePost
+module.exports = ValidateAnime

@@ -7,9 +7,9 @@ class Studio extends Model {
   static get visible() {
     return ['id', 'name']
   }
-  posts() {
-    return this.belongsToMany('App/Models/Post')
-      .pivotTable('post_studio')
+  animes() {
+    return this.belongsToMany('App/Models/Anime')
+      .pivotTable('anime_studio')
       .withTimestamps()
   }
   static get Serializer() {

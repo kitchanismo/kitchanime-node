@@ -1,9 +1,9 @@
 'use strict'
 
-const Post = use('App/Models/Post')
+const Anime = use('App/Models/Anime')
 const NotFound = use('App/Exceptions/NotFoundException')
 
-class FindPost {
+class FindAnime {
   async handle(
     {
       params: { id },
@@ -11,16 +11,16 @@ class FindPost {
     },
     next
   ) {
-    const post = await Post.find(id)
+    const anime = await Anime.find(id)
 
-    if (!post) {
-      throw new NotFound(`post id:${id} not found.`)
+    if (!anime) {
+      throw new NotFound(`anime id:${id} not found.`)
     }
 
-    request.get().post = post
+    request.get().post = anime
 
     await next()
   }
 }
 
-module.exports = FindPost
+module.exports = FindAnime

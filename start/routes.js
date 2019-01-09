@@ -47,31 +47,31 @@ Route.group(() => {
   .prefix('api/users')
   .middleware(['auth'])
 
-// post routes
+// anime routes
 Route.group(() => {
-  Route.get('/', 'PostController.index')
-  Route.get('/page/:num', 'PostController.paginate')
-  Route.get(':id', 'PostController.show').middleware(['findPost'])
-  Route.get(':id/genres', 'PostController.genres').middleware(['findPost'])
-  Route.get(':id/studios', 'PostController.studios').middleware(['findPost'])
+  Route.get('/', 'AnimeController.index')
+  Route.get('/page/:num', 'AnimeController.paginate')
+  Route.get(':id', 'AnimeController.show').middleware(['findAnime'])
+  Route.get(':id/genres', 'AnimeController.genres').middleware(['findAnime'])
+  Route.get(':id/studios', 'AnimeController.studios').middleware(['findAnime'])
 
-  Route.post('/', 'PostController.store').middleware(['auth', 'validatePost'])
-  Route.put('/:id', 'PostController.update').middleware([
+  Route.post('/', 'AnimeController.store').middleware(['auth', 'validateAnime'])
+  Route.put('/:id', 'AnimeController.update').middleware([
     'auth',
-    'validatePost',
-    'findPost'
+    'validateAnime',
+    'findAnime'
   ])
-  Route.delete('/:id', 'PostController.destroy').middleware([
+  Route.delete('/:id', 'AnimeController.destroy').middleware([
     'auth',
-    'findPost'
+    'findAnime'
   ])
-}).prefix('api/posts')
+}).prefix('api/animes')
 
 //genre routes
 Route.group(() => {
   Route.get('/', 'GenreController.index')
   Route.get('/:id', 'GenreController.show').middleware(['findGenre'])
-  Route.get('/:id/posts', 'GenreController.posts').middleware(['findGenre'])
+  Route.get('/:id/animes', 'GenreController.animes').middleware(['findGenre'])
 
   Route.post('/', 'GenreController.store').middleware(['auth', 'validateModel'])
   Route.put('/:id', 'GenreController.update').middleware([
@@ -89,7 +89,7 @@ Route.group(() => {
 Route.group(() => {
   Route.get('/', 'StudioController.index')
   Route.get('/:id', 'StudioController.show').middleware(['findStudio'])
-  Route.get('/:id/posts', 'StudioController.posts').middleware(['findStudio'])
+  Route.get('/:id/animes', 'StudioController.animes').middleware(['findStudio'])
 
   Route.post('/', 'StudioController.store').middleware([
     'auth',
