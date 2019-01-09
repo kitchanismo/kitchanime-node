@@ -130,7 +130,15 @@ class PostController {
       trx.rollback()
       if (!error.sqlMessage) throw new Error(error.message)
 
-      throw new BadRequest('a foreign key constraint fails')
+      const field = util.filterField(error.message)
+      const errors = [
+        {
+          message: `a foreign key constraint fails on ${field}`,
+          field: `${field}Ids`,
+          validation: 'constraint'
+        }
+      ]
+      throw new BadRequest(errors)
     }
 
     trx.commit()

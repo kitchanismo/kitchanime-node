@@ -14,8 +14,14 @@ class UtilityService {
     return str.match(/'([^']+)'/)[1]
   }
 
+  filterField(str) {
+    const table = str.match(/`([^`]+)`/)[1]
+    const index = table.indexOf('_') - 1
+    return table.substring(index + 2)
+  }
+
   filterMessage(str) {
-    const index = str.indexOf('(') - 1
+    const index = str.indexOf('_') - 1
     return str.substring(0, index)
   }
 }

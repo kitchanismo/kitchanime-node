@@ -1,7 +1,6 @@
 'use strict'
 
 const { validateAll, sanitize } = use('Validator')
-const BadRequest = use('App/Exceptions/BadRequestException')
 
 class ValidatePost {
   get sanitizationRules() {
