@@ -3,11 +3,10 @@
 const UserHook = (exports = module.exports = {})
 
 UserHook.parseToBoolean = async user => {
-  //   if (Array.isArray(user)) {
-  //     user = user.map(u => (u.isAdmin === 1 ? true : false))
-  //     console.log(user)
-  //     return
-  //   }
-
+  if (Array.isArray(user)) {
+    user.map(u => {
+      u.isAdmin = u.isAdmin === 1 ? true : false
+    })
+  }
   user.isAdmin = user.isAdmin === 1 ? true : false
 }
