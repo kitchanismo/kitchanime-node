@@ -2,7 +2,6 @@
 
 const Post = use('App/Models/Post')
 const Database = use('Database')
-const paginate = use('App/Services/PaginateService')
 const BadRequest = use('App/Exceptions/BadRequestException')
 const NotFound = use('App/Exceptions/NotFoundException')
 
@@ -33,7 +32,7 @@ class PostController {
     })
   }
 
-  async paginate({ params: { num }, response, request }) {
+  async paginate({ params: { num }, response, request, utils }) {
     const { limit = 15 } = request.get()
 
     let posts = await Post.query()
@@ -52,8 +51,8 @@ class PostController {
       num
     }
 
-    const nextUrl = paginate.getNextUrl(pageData)
-    const prevUrl = paginate.getPrevUrl(pageData)
+    const nextUrl = utils.getNextUrl(pageData)
+    const prevUrl = utils.getPrevUrl(pageData)
 
     const count = Object.keys(posts.data).length
 
@@ -97,7 +96,7 @@ class PostController {
     })
   }
 
-  async store({ request, response, util }) {
+  async store({ request, response, utils }) {
     const {
       title,
       description,
@@ -130,7 +129,7 @@ class PostController {
       trx.rollback()
       if (!error.sqlMessage) throw new Error(error.message)
 
-      const field = util.filterField(error.message)
+      const field = utils.filterField(error.message)
       const errors = [
         {
           message: `a foreign key constraint fails on ${field}`,

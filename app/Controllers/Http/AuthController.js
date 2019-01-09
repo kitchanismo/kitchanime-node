@@ -3,7 +3,7 @@ const AuthException = use('App/Exceptions/AuthException')
 const User = use('App/Models/User')
 
 class AuthController {
-  async login({ request, response, auth }) {
+  async login({ request, response, auth, utils }) {
     const { username, password } = request.post()
 
     try {
@@ -13,7 +13,12 @@ class AuthController {
         token
       })
     } catch (error) {
-      throw new AuthException(`login failed`)
+      throw utils.has(error.name, [
+        'UserNotFoundException',
+        'PasswordMisMatchException'
+      ])
+        ? new AuthException(`login failed`)
+        : new Error(error.message)
     }
   }
 

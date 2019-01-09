@@ -20,35 +20,29 @@ class ExceptionHandler extends BaseExceptionHandler {
    *
    * @return {void}
    */
-  async handle(error, { request, response }) {
+  async handle(error, { request, response, utils }) {
     let status = 500
     let message = null
 
-    if (error.name === 'BadRequestException') {
+    if (
+      utils.has(error.name, [
+        'AuthException',
+        'BadRequestException',
+        'NotFoundException'
+      ])
+    ) {
       return super.handle(...arguments)
-    }
-
-    if (error.name === 'AuthException') {
-      return super.handle(...arguments)
-    }
-
-    if (error.name === 'NotFoundException') {
-      return super.handle(...arguments)
+    } else {
+      if (
+        Env.get('NODE_ENV') === 'production' ||
+        Env.get('APP_DEBUG') === 'false'
+      ) {
+        message = 'something failed in server'
+      }
     }
 
     if (error.name === 'InvalidJwtToken') {
       status = 403
-    }
-
-    if (
-      error.name === 'Error' ||
-      error.name === 'RuntimeException' ||
-      error.name === 'TypeError'
-    ) {
-      if (Env.get('NODE_ENV') === 'production') {
-        message = 'something failed in server'
-        console.log(error)
-      }
     }
 
     return response.status(status).json({

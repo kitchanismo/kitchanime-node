@@ -1,5 +1,4 @@
 'use strict'
-const BadRequest = use('App/Exceptions/BadRequestException')
 
 const User = use('App/Models/User')
 

@@ -1,7 +1,7 @@
 'use strict'
-const util = use('App/Services/UtilityService')
+const utils = use('App/Services/UtilityService')
 
-class Utility {
+class Utilities {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -9,9 +9,9 @@ class Utility {
    */
   async handle(ctx, next) {
     // call next to advance the request
-    ctx.util = util
+    ctx.utils = utils
     await next()
   }
 }
 
-module.exports = Utility
+module.exports = Utilities
