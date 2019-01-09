@@ -17,7 +17,7 @@ class FindAnime {
       throw new NotFound(`anime id:${id} not found.`)
     }
 
-    request.get().post = anime
+    request.get().anime = anime
 
     await next()
   }

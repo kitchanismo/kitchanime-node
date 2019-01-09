@@ -145,7 +145,7 @@ class AnimeController {
     await anime.loadMany(['studios', 'genres'])
 
     response.status(201).json({
-      message: 'post created',
+      message: 'anime created',
       anime
     })
   }
@@ -203,10 +203,10 @@ class AnimeController {
     await anime.delete()
 
     response.json({
-      message: 'post deleted',
+      message: 'anime deleted',
       id: anime.id
     })
   }
 }
 
-module.exports = PostController
+module.exports = AnimeController

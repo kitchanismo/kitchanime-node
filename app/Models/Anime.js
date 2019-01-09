@@ -4,6 +4,10 @@
 const Model = use('Model')
 
 class Anime extends Model {
+  static get table() {
+    return 'animes'
+  }
+
   static get hidden() {
     return ['created_at', 'updated_at']
   }
@@ -18,6 +22,10 @@ class Anime extends Model {
     return this.belongsToMany('App/Models/Genre').pivotModel(
       'App/Models/AnimeGenre'
     )
+  }
+
+  static get Serializer() {
+    return 'App/Serializers/RemovePivotSerializer'
   }
 
   // static get Serializer() {

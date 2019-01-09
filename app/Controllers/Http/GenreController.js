@@ -17,18 +17,18 @@ class GenreController {
     })
   }
 
-  async posts({ response, request }) {
+  async animes({ response, request }) {
     const { genre } = request.get()
 
-    const posts = await genre
-      .posts()
+    const animes = await genre
+      .animes()
       .with('studios')
       .with('genres')
       .fetch()
       .then(data => data.toJSON())
 
     response.status(200).json({
-      posts
+      animes
     })
   }
 

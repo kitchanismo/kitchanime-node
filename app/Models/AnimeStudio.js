@@ -10,6 +10,9 @@ class AnimeStudio extends Model {
   static get table() {
     return 'anime_studio'
   }
+  static get Serializer() {
+    return 'App/Serializers/RemovePivotSerializer'
+  }
 }
 
 module.exports = AnimeStudio
