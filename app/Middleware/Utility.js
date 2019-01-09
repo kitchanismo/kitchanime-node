@@ -1,5 +1,5 @@
 'use strict'
-
+const util = use('App/Services/UtilityService')
 
 class Utility {
   /**
