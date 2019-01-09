@@ -10,9 +10,8 @@ Route.group(use('App/Routes/Auth'))
   .middleware(['guest'])
 
 // user routes
-Route.group(use('App/Routes/User'))
-  .prefix('api/users')
-  .middleware(['auth'])
+Route.group(use('App/Routes/User')).prefix('api/users')
+//.middleware(['auth'])
 
 // anime routes
 Route.group(use('App/Routes/Anime')).prefix('api/animes')

@@ -4,15 +4,15 @@
 const Schema = use('Schema')
 
 class AddIsAdminToUserSchema extends Schema {
-  up () {
-    this.table('add_is_admin_to_users', (table) => {
-      // alter table
+  up() {
+    this.table('users', table => {
+      table.boolean('isAdmin').defaultTo(false)
     })
   }
 
-  down () {
-    this.table('add_is_admin_to_users', (table) => {
-      // reverse alternations
+  down() {
+    this.table('users', table => {
+      table.dropColumn('isAdmin')
     })
   }
 }

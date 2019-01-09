@@ -8,7 +8,7 @@ const Hash = use('Hash')
 
 class User extends Model {
   static get visible() {
-    return ['id', 'username', 'email']
+    return ['id', 'username', 'email', 'isAdmin']
   }
 
   static boot() {
@@ -23,6 +23,10 @@ class User extends Model {
         userInstance.password = await Hash.make(userInstance.password)
       }
     })
+
+    this.addHook('afterFind', 'UserHook.parseToBoolean')
+
+    this.addHook('afterFetch', 'UserHook.parseToBoolean')
   }
 
   /**
