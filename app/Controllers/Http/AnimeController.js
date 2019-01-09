@@ -127,6 +127,7 @@ class AnimeController {
       await anime.studios().attach(studioIds, null, trx)
     } catch (error) {
       trx.rollback()
+
       if (!error.sqlMessage) throw new Error(error.message)
 
       const field = utils.filterField(error.message)

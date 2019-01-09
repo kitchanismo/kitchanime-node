@@ -34,14 +34,19 @@ const globalMiddleware = ['Adonis/Middleware/BodyParser']
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
-  findAnime: 'App/Middleware/FindAnime',
-  validateAnime: 'App/Middleware/ValidateAnime',
-  findGenre: 'App/Middleware/FindGenre',
-  validateModel: 'App/Middleware/ValidateModel',
-  findStudio: 'App/Middleware/FindStudio',
-  validateUser: 'App/Middleware/ValidateUser',
-  util: 'App/Middleware/Utility',
-  findUser: 'App/Middleware/FindUser'
+
+  // validates
+  validateModel: 'App/Middleware/Validates/ValidateModel',
+  validateAnime: 'App/Middleware/Validates/ValidateAnime',
+  validateUser: 'App/Middleware/Validates/ValidateUser',
+
+  // filters
+  findAnime: 'App/Middleware/Filters/FindAnime',
+  findGenre: 'App/Middleware/Filters/FindGenre',
+  findStudio: 'App/Middleware/Filters/FindStudio',
+  findUser: 'App/Middleware/Filters/FindUser',
+
+  util: 'App/Middleware/Utility'
 }
 
 /*

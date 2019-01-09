@@ -8,10 +8,10 @@ class NotFoundException extends LogicalException {
    */
   handle(error, { response }) {
     return response.status(404).json({
-      exception: {
+      status: {
         name: error.name,
-        status: 404,
-        error: error.message
+        code: 404,
+        error: error.message || 'resource not found'
       }
     })
   }

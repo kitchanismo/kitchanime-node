@@ -7,13 +7,13 @@ class BadRequestException extends LogicalException {
    * Handle this exception by itself
    */
   handle(error, { response }) {
-    const status = 400
+    const code = 400
     let errorName = Array.isArray(error.message) ? 'errors' : 'error'
 
-    return response.status(status).json({
-      exception: {
+    return response.status(code).json({
+      status: {
         name: error.name,
-        status,
+        code,
         [errorName]: error.message
       }
     })

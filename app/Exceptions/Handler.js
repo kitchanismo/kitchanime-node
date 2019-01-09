@@ -21,7 +21,7 @@ class ExceptionHandler extends BaseExceptionHandler {
    * @return {void}
    */
   async handle(error, { request, response, utils }) {
-    let status = 500
+    let code = 500
     let message = null
 
     if (
@@ -42,14 +42,14 @@ class ExceptionHandler extends BaseExceptionHandler {
     }
 
     if (error.name === 'InvalidJwtToken') {
-      status = 403
+      code = 403
     }
 
-    return response.status(status).json({
-      exception: {
+    return response.status(code).json({
+      status: {
         name: error.name,
-        status,
-        message: message || error.message
+        code,
+        error: message || error.message
       }
     })
   }

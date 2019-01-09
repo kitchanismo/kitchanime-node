@@ -7,12 +7,12 @@ class AuthException extends LogicalException {
    * Handle this exception by itself
    */
   handle(error, { response }) {
-    const status = 400
+    const code = 400
 
-    return response.status(status).json({
-      exception: {
+    return response.status(code).json({
+      status: {
         name: error.name,
-        status,
+        code,
         errors: error.message
       }
     })
