@@ -3,6 +3,7 @@ const Env = use('Env')
 const appUrl = Env.get('APP_URL')
 
 class UtilityService {
+  constructor() {}
   removePivotArr(arr) {
     return arr.map(p => {
       p.studios.map(s => delete s.pivot)
