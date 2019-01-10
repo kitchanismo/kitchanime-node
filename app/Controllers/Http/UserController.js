@@ -53,11 +53,8 @@ class UserController {
     let errors = []
 
     if (user.username !== username) {
-      const isUsernameTaken = await this.isTaken({ username })
-
-      if (isUsernameTaken) {
-        errors.push(this.error('username', username))
-        throw new BadRequest(errors)
+      if (await this.isTaken({ username })) {
+        throw new BadRequest([...errors, this.error('username', username)])
       }
     }
 
@@ -65,8 +62,7 @@ class UserController {
       const isEmailTaken = await this.isTaken({ email })
 
       if (isEmailTaken) {
-        errors.push(this.error('email', email))
-        throw new BadRequest(errors)
+        throw new BadRequest([...errors, this.error('email', email)])
       }
     }
 
