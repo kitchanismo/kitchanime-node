@@ -32,17 +32,18 @@ class ExceptionHandler extends BaseExceptionHandler {
       ])
     ) {
       return super.handle(...arguments)
-    } else {
-      if (
-        Env.get('NODE_ENV') === 'production' ||
-        Env.get('APP_DEBUG') === 'false'
-      ) {
-        message = 'something failed in server'
-      }
+    }
+
+    if (
+      Env.get('NODE_ENV') === 'production' ||
+      Env.get('APP_DEBUG') === 'false'
+    ) {
+      message = 'something failed in server'
     }
 
     if (error.name === 'InvalidJwtToken') {
-      code = 403
+      code = 400
+      message = 'jwt must be provided in header'
     }
 
     return response.status(code).json({

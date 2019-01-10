@@ -17,14 +17,14 @@ class UserController {
     })
   }
 
-  async me({ response, params: { id }, auth }) {
+  async me({ response, auth }) {
     return response.status(200).json({
       user: auth.user
     })
   }
 
-  async show({ response, params: { id } }) {
-    const user = await User.find(id)
+  async show({ response, request }) {
+    const { user } = request.get()
 
     return response.status(200).json({
       user

@@ -6,7 +6,7 @@ const Schema = use('Schema')
 class AddIsAdminToUserSchema extends Schema {
   up() {
     this.table('users', table => {
-      table.boolean('isAdmin').defaultTo(false)
+      table.bool('isAdmin').defaultTo(false)
     })
   }
 
