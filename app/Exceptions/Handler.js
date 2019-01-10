@@ -28,7 +28,8 @@ class ExceptionHandler extends BaseExceptionHandler {
       utils.has(error.name, [
         'AuthException',
         'BadRequestException',
-        'NotFoundException'
+        'NotFoundException',
+        'ForbiddenException'
       ])
     ) {
       return super.handle(...arguments)

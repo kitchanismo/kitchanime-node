@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User')
+const BadRequest = use('App/Exceptions/BadRequestException')
 
 class UserController {
   async index({ response, request }) {
@@ -41,14 +42,33 @@ class UserController {
     })
 
     return response.status(201).json({
+      message: 'user created',
       user
     })
   }
 
-  async update({ request, response, params: { id } }) {
-    const { user } = request.get()
-
+  async update({ request, response, auth: { user } }) {
     const { username, password, email } = request.post()
+
+    let errors = []
+
+    if (user.username !== username) {
+      const isUsernameTaken = await this.isTaken({ username })
+
+      if (isUsernameTaken) {
+        errors.push(this.error('username', username))
+        throw new BadRequest(errors)
+      }
+    }
+
+    if (user.email !== email) {
+      const isEmailTaken = await this.isTaken({ email })
+
+      if (isEmailTaken) {
+        errors.push(this.error('email', email))
+        throw new BadRequest(errors)
+      }
+    }
 
     user.merge({ username, password, email })
 
@@ -58,6 +78,22 @@ class UserController {
       message: 'user updated',
       user
     })
+  }
+
+  error(field, value) {
+    return {
+      message: `${value} is taken`,
+      field: field,
+      validation: 'unique'
+    }
+  }
+
+  async isTaken(data) {
+    const total = await User.query().getCount()
+    const count = await User.query()
+      .whereNot(data)
+      .getCount()
+    return total !== count
   }
 
   async destroy({ response, params: { id }, request }) {

@@ -34,7 +34,7 @@ const globalMiddleware = ['Adonis/Middleware/BodyParser']
 const namedMiddleware = {
   auth: 'Adonis/Middleware/Auth',
   guest: 'Adonis/Middleware/AllowGuestOnly',
-
+  admin: 'App/Middleware/AdminOnly',
   // validates
   validateModel: 'App/Middleware/Validates/ValidateModel',
   validateAnime: 'App/Middleware/Validates/ValidateAnime',
