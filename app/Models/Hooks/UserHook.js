@@ -15,3 +15,7 @@ UserHook.hassPassword = async userInstance => {
     userInstance.password = await Hash.make(userInstance.password)
   }
 }
+
+UserHook.hidePassword = async userInstance => {
+  delete userInstance.password
+}

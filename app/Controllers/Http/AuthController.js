@@ -1,6 +1,7 @@
 'use strict'
 const AuthException = use('App/Exceptions/AuthException')
 const User = use('App/Models/User')
+const Event = use('Event')
 
 class AuthController {
   async login({ request, response, auth, utils }) {
@@ -32,6 +33,8 @@ class AuthController {
     })
 
     const token = await auth.generate(user)
+
+    Event.emit('new::user', user)
 
     return response.status(201).json({
       token
