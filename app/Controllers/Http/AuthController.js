@@ -8,7 +8,7 @@ class AuthController {
     const { username, password } = request.post()
 
     try {
-      const token = await auth.attempt(username, password)
+      const token = await auth.attemp(username, password)
 
       return response.status(200).json({
         token

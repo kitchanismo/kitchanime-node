@@ -43,8 +43,6 @@ class ValidateAnime {
 
     const data = request.method() === 'GET' ? params : request.all()
 
-    console.log(data)
-
     const validation = await validateAll(data, rules, this.messages)
 
     if (validation.fails()) {

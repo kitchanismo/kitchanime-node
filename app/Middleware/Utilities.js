@@ -9,6 +9,7 @@ class Utilities {
    */
   async handle(ctx, next) {
     // call next to advance the request
+
     ctx.utils = utils
     await next()
   }
