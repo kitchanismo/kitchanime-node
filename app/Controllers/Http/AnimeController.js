@@ -32,6 +32,27 @@ class AnimeController {
     })
   }
 
+  async release({ response, params }) {
+    const { year, season } = params
+
+    const animes = await Anime.query()
+      .with('genres')
+      .with('studios')
+      .where({ season })
+      .having('releaseDate', 'like', `%${year}%`)
+      .fetch()
+      .then(data => data.toJSON())
+
+    const count = Object.keys(animes).length
+
+    response.status(200).json({
+      year: parseInt(year),
+      season,
+      count,
+      animes
+    })
+  }
+
   async paginate({ params: { num }, response, request, utils }) {
     const { limit = 15 } = request.get()
 

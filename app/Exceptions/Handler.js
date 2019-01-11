@@ -15,7 +15,7 @@ class ExceptionHandler extends BaseExceptionHandler {
       return super.handle(...arguments)
     }
 
-    let { code, message } = this.GlobalExceptions(error, request)
+    let { code, message } = this.GlobalExceptions(error, request, utils)
 
     return response.status(code).json({
       status: {
@@ -35,7 +35,7 @@ class ExceptionHandler extends BaseExceptionHandler {
     ])
   }
 
-  GlobalExceptions(error, request) {
+  GlobalExceptions(error, request, { filterJWTMessage }) {
     let code = 500
     let message = null
     const exception = {
@@ -54,7 +54,7 @@ class ExceptionHandler extends BaseExceptionHandler {
     }
     if (error.name === 'InvalidJwtToken') {
       code = 400
-      message = 'jwt must be provided in header'
+      message = filterJWTMessage(error.message)
     } else {
       Logger.error(
         `message: ${error.message}, type: ${exception.name}, url: ${

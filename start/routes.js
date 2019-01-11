@@ -23,4 +23,5 @@ Route.group(use('App/Routes/Genre')).prefix('api/genres')
 // studio route
 Route.group(use('App/Routes/Studio')).prefix('api/studios')
 
+// handle all routes
 Route.any('/*', use('App/Routes/NotFound'))

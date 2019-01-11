@@ -3,6 +3,9 @@ const Route = use('Route')
 const anime = () => {
   Route.get('/', 'AnimeController.index')
   Route.get('/page/:num', 'AnimeController.paginate')
+  Route.get('/release/:year/:season', 'AnimeController.release').middleware([
+    'validateAnime'
+  ])
   Route.get(':id', 'AnimeController.show').middleware(['findAnime'])
   Route.get(':id/genres', 'AnimeController.genres').middleware(['findAnime'])
   Route.get(':id/studios', 'AnimeController.studios').middleware(['findAnime'])

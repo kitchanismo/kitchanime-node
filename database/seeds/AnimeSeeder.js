@@ -16,7 +16,7 @@ const Factory = use('Factory')
 class AnimeSeeder {
   async run() {
     try {
-      const animes = await Factory.model('App/Models/Anime').createMany(20)
+      const animes = await Factory.model('App/Models/Anime').createMany(10)
 
       for (const anime of animes) {
         const genre = await Factory.model('App/Models/Genre').make()

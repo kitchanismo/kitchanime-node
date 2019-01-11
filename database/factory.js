@@ -16,7 +16,7 @@ const Factory = use('Factory')
 
 Factory.blueprint('App/Models/User', faker => {
   return {
-    username: 'kitchan2',
+    username: 'kitchan',
     password: '123456',
     email: 'kitchanismo2@gmail.com',
     isAdmin: true
@@ -42,6 +42,6 @@ Factory.blueprint('App/Models/Anime', faker => {
     season: faker.word(),
     type: faker.word(),
     imageUrl: faker.sentence(),
-    releaseDate: Date.now()
+    releaseDate: faker.date()
   }
 })

@@ -14,13 +14,19 @@ class ValidateAnime {
     }
   }
 
-  get rules() {
+  get storeRules() {
     return {
       title: 'required|min:3',
       season: 'required',
       studioIds: 'required',
       genreIds: 'required',
       type: 'required'
+    }
+  }
+
+  get paramsRules() {
+    return {
+      year: 'number|min:4|max:4'
     }
   }
 
@@ -31,12 +37,15 @@ class ValidateAnime {
     }
   }
 
-  async handle({ request }, next) {
-    const validation = await validateAll(
-      request.all(),
-      this.rules,
-      this.messages
-    )
+  async handle({ request, params }, next) {
+    const rules =
+      request.method() === 'GET' ? this.paramsRules : this.storeRules
+
+    const data = request.method() === 'GET' ? params : request.all()
+
+    console.log(data)
+
+    const validation = await validateAll(data, rules, this.messages)
 
     if (validation.fails()) {
       throw new BadRequest(validation.messages())

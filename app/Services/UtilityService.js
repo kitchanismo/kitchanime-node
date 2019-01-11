@@ -34,6 +34,11 @@ class UtilityService {
     return str.substring(0, index)
   }
 
+  filterJWTMessage(str) {
+    const index = str.indexOf(':') - 1
+    return str.substring(index + 3)
+  }
+
   removeLastIndexUrl(url) {
     url = appUrl + url
     let to = url.lastIndexOf('/')
