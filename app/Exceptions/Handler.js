@@ -10,55 +10,12 @@ const Logger = use('Logger')
  * @class ExceptionHandler
  */
 class ExceptionHandler extends BaseExceptionHandler {
-  /**
-   * Handle exception thrown during the HTTP lifecycle
-   *
-   * @method handle
-   *
-   * @param  {Object} error
-   * @param  {Object} options.request
-   * @param  {Object} options.response
-   *
-   * @return {void}
-   */
   async handle(error, { request, response, utils }) {
-    let code = 500
-    let message = null
-
-    if (
-      utils.has(error.name, [
-        'AuthException',
-        'BadRequestException',
-        'NotFoundException',
-        'ForbiddenException'
-      ])
-    ) {
+    if (this.hasCustomExceptions(utils.has, error)) {
       return super.handle(...arguments)
     }
 
-    if (
-      Env.get('NODE_ENV') === 'production' ||
-      Env.get('APP_DEBUG') === 'false'
-    ) {
-      message = 'something failed in server'
-
-      const exception = {
-        name: error.name,
-        status: error.status,
-        url: request.url()
-      }
-
-      Logger.debug(error.message, exception)
-
-      if (Env.get('NODE_ENV') === 'production') {
-        Logger.error(error.message, exception)
-      }
-    }
-
-    if (error.name === 'InvalidJwtToken') {
-      code = 400
-      message = 'jwt must be provided in header'
-    }
+    let { code, message } = this.GlobalExceptions(error, request)
 
     return response.status(code).json({
       status: {
@@ -67,6 +24,45 @@ class ExceptionHandler extends BaseExceptionHandler {
         error: message || error.message
       }
     })
+  }
+
+  hasCustomExceptions(has, error) {
+    return has(error.name, [
+      'AuthException',
+      'BadRequestException',
+      'NotFoundException',
+      'ForbiddenException'
+    ])
+  }
+
+  GlobalExceptions(error, request) {
+    let code = 500
+    let message = null
+    const exception = {
+      name: error.name,
+      status: error.status,
+      url: request.url()
+    }
+    if (
+      Env.get('NODE_ENV') === 'production' ||
+      Env.get('APP_DEBUG') === 'false'
+    ) {
+      message = 'something failed in server'
+      if (Env.get('NODE_ENV') === 'production') {
+        Logger.transport('file').error(error.message, exception)
+      }
+    }
+    if (error.name === 'InvalidJwtToken') {
+      code = 400
+      message = 'jwt must be provided in header'
+    } else {
+      Logger.error(
+        `message: ${error.message}, type: ${exception.name}, url: ${
+          exception.url
+        }, code:${exception.status}`
+      )
+    }
+    return { code, message }
   }
 
   async report(error, { request }) {}

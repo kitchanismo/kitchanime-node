@@ -1,7 +1,7 @@
 'use strict'
 const utils = use('App/Services/UtilityService')
 
-class Utilities {
+class Server {
   /**
    * @param {object} ctx
    * @param {Request} ctx.request
@@ -14,4 +14,4 @@ class Utilities {
   }
 }
 
-module.exports = Utilities
+module.exports = Server

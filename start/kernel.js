@@ -12,7 +12,10 @@ const Server = use('Server')
 | match.
 |
 */
-const globalMiddleware = ['Adonis/Middleware/BodyParser']
+const globalMiddleware = [
+  'Adonis/Middleware/BodyParser',
+  'App/Middleware/Global'
+]
 
 /*
 |--------------------------------------------------------------------------
@@ -44,9 +47,7 @@ const namedMiddleware = {
   findAnime: 'App/Middleware/Filters/FindAnime',
   findGenre: 'App/Middleware/Filters/FindGenre',
   findStudio: 'App/Middleware/Filters/FindStudio',
-  findUser: 'App/Middleware/Filters/FindUser',
-
-  util: 'App/Middleware/Utility'
+  findUser: 'App/Middleware/Filters/FindUser'
 }
 
 /*
@@ -61,8 +62,7 @@ const namedMiddleware = {
 */
 const serverMiddleware = [
   // 'Adonis/Middleware/Static',
-  'Adonis/Middleware/Cors',
-  'App/Middleware/Utilities'
+  'Adonis/Middleware/Cors'
 ]
 
 Server.registerGlobal(globalMiddleware)

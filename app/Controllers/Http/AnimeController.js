@@ -130,15 +130,7 @@ class AnimeController {
 
       if (!error.sqlMessage) throw new Error(error.message)
 
-      const field = utils.filterField(error.message)
-      const errors = [
-        {
-          message: `a foreign key constraint fails on ${field}`,
-          field: `${field}Ids`,
-          validation: 'constraint'
-        }
-      ]
-      throw new BadRequest(errors)
+      throw new BadRequest(this.getErrors(utils, error))
     }
 
     trx.commit()
@@ -151,7 +143,19 @@ class AnimeController {
     })
   }
 
-  async update({ request, response }) {
+  getErrors({ filterField }, { message }) {
+    const field = filterField(message)
+    const errors = [
+      {
+        message: `a foreign key constraint fails on ${field}`,
+        field: `${field}Ids`,
+        validation: 'constraint'
+      }
+    ]
+    return errors
+  }
+
+  async update({ request, response, utils }) {
     const { anime } = request.get()
 
     const {
@@ -185,7 +189,7 @@ class AnimeController {
       trx.rollback()
       if (!error.sqlMessage) throw new Error(error.message)
 
-      throw new BadRequest('a foreign key constraint fails')
+      throw new BadRequest(this.getErrors(utils, error))
     }
 
     trx.commit()
