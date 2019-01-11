@@ -42,23 +42,36 @@ class ValidateUser {
     },
     next
   ) {
-    if (request.method() === 'POST' || request.method() === 'PUT') {
+    if ((request.method() === 'POST') | (request.method() === 'PUT')) {
       const { username, email } = request.post()
 
       const rules =
         request.method() === 'POST' ? this.storeRules : this.putRules
 
+      let hasGenericError = false
+      let hasPutError = false
+
+      let genericErrors = []
+      let putErrors = []
+
       const validation = await validateAll(request.all(), rules, this.messages)
 
       if (validation.fails()) {
-        throw new BadRequest(validation.messages())
+        hasGenericError = true
+        genericErrors = validation.messages()
+      }
+
+      if (request.method() === 'PUT') {
+        putErrors = await this.getUniqueErrors(user, { username, email })
+        hasPutError = putErrors ? true : false
+        putErrors = putErrors ? putErrors : []
+      }
+
+      if (hasGenericError || hasPutError) {
+        throw new BadRequest([...genericErrors, ...putErrors])
       }
 
       request.body = sanitize(request.all(), this.sanitizationRules)
-
-      if (request.method() === 'PUT') {
-        await this.checkUserUnique(user, { username, email })
-      }
 
       await next()
 
@@ -70,39 +83,41 @@ class ValidateUser {
     await next()
   }
 
-  async checkUserUnique(authUser, { username, email }) {
+  // check the auth user, if username and email are unique
+  async getUniqueErrors(authUser, { username, email }) {
     let errors = []
+    let isUsernameFails = false
+    let isEmailFails = false
 
-    const error = (field, value) => {
-      throw new BadRequest([
-        ...errors,
-        {
-          message: `${value} is taken`,
-          field: field,
-          validation: 'unique'
-        }
-      ])
+    if (authUser.username !== username && (await this.isTaken({ username }))) {
+      isUsernameFails = true
+      errors.push(this.getError('username', username))
     }
 
-    if (authUser.username !== username) {
-      if (await this.isTaken({ username })) {
-        error('username', username)
-      }
+    if (authUser.email !== email && (await this.isTaken({ email }))) {
+      isEmailFails = true
+      errors.push(this.getError('email', email))
     }
 
-    if (authUser.email !== email) {
-      if (await this.isTaken({ email })) {
-        error('email', email)
-      }
+    if (isUsernameFails | isEmailFails) {
+      return errors
+    }
+    return false
+  }
+
+  getError(field, value) {
+    return {
+      message: `${value} is taken`,
+      field,
+      validation: 'unique'
     }
   }
 
   async isTaken(data) {
-    const total = await User.query().getCount()
     const count = await User.query()
-      .whereNot(data)
+      .where(data)
       .getCount()
-    return total !== count
+    return count > 0
   }
 }
 
