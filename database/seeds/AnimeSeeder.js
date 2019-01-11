@@ -16,14 +16,15 @@ const Factory = use('Factory')
 class AnimeSeeder {
   async run() {
     try {
-      const animes = await Factory.model('App/Models/Anime').createMany(10)
+      const animes = await Factory.model('App/Models/Anime').createMany(20)
 
-      animes.forEach(async anime => {
+      for (const anime of animes) {
         const genre = await Factory.model('App/Models/Genre').make()
         const studio = await Factory.model('App/Models/Studio').make()
+
         await anime.genres().save(genre)
         await anime.studios().save(studio)
-      })
+      }
     } catch (ex) {
       console.log(ex)
     }
