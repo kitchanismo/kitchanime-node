@@ -2,6 +2,7 @@
 
 const BaseExceptionHandler = use('BaseExceptionHandler')
 const Env = use('Env')
+const Logger = use('Logger')
 /**
  * This class handles all exceptions thrown during
  * the HTTP request lifecycle.
@@ -40,7 +41,18 @@ class ExceptionHandler extends BaseExceptionHandler {
       Env.get('APP_DEBUG') === 'false'
     ) {
       message = 'something failed in server'
-      console.log(error)
+
+      const exception = {
+        name: error.name,
+        status: error.status,
+        url: request.url()
+      }
+
+      Logger.debug(error.message, exception)
+
+      if (Env.get('NODE_ENV') === 'production') {
+        Logger.error(error.message, exception)
+      }
     }
 
     if (error.name === 'InvalidJwtToken') {
