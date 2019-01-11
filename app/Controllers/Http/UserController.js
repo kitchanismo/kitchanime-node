@@ -50,22 +50,6 @@ class UserController {
   async update({ request, response, auth: { user } }) {
     const { username, password, email } = request.post()
 
-    let errors = []
-
-    if (user.username !== username) {
-      if (await this.isTaken({ username })) {
-        throw new BadRequest([...errors, this.error('username', username)])
-      }
-    }
-
-    if (user.email !== email) {
-      const isEmailTaken = await this.isTaken({ email })
-
-      if (isEmailTaken) {
-        throw new BadRequest([...errors, this.error('email', email)])
-      }
-    }
-
     user.merge({ username, password, email })
 
     await user.save()
@@ -74,22 +58,6 @@ class UserController {
       message: 'user updated',
       user
     })
-  }
-
-  error(field, value) {
-    return {
-      message: `${value} is taken`,
-      field: field,
-      validation: 'unique'
-    }
-  }
-
-  async isTaken(data) {
-    const total = await User.query().getCount()
-    const count = await User.query()
-      .whereNot(data)
-      .getCount()
-    return total !== count
   }
 
   async destroy({ response, params: { id }, request }) {

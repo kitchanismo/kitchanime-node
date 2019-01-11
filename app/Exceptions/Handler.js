@@ -40,6 +40,7 @@ class ExceptionHandler extends BaseExceptionHandler {
       Env.get('APP_DEBUG') === 'false'
     ) {
       message = 'something failed in server'
+      console.log(error)
     }
 
     if (error.name === 'InvalidJwtToken') {
@@ -56,16 +57,6 @@ class ExceptionHandler extends BaseExceptionHandler {
     })
   }
 
-  /**
-   * Report exception for logging or debugging.
-   *
-   * @method report
-   *
-   * @param  {Object} error
-   * @param  {Object} options.request
-   *
-   * @return {void}
-   */
   async report(error, { request }) {}
 }
 
