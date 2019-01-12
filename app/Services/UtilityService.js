@@ -55,5 +55,16 @@ class UtilityService {
       ? null
       : this.removeLastIndexUrl(url) + (+num - 1)
   }
+
+  getErrors({ message }) {
+    const field = this.filterField(message)
+    return [
+      {
+        message: `a foreign key constraint fails on ${field}`,
+        field: `${field}Ids`,
+        validation: 'constraint'
+      }
+    ]
+  }
 }
 module.exports = new UtilityService()

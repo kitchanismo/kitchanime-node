@@ -142,8 +142,8 @@ class AnimeController {
       type,
       imageUrl,
       releaseDate,
-      genreIds,
-      studioIds
+      genreIds = null,
+      studioIds = null
     } = request.post()
 
     const trx = await Database.beginTransaction()
@@ -161,14 +161,14 @@ class AnimeController {
     )
 
     try {
-      await anime.genres().attach(genreIds, null, trx)
-      await anime.studios().attach(studioIds, null, trx)
+      genreIds ? await anime.genres().attach(genreIds, null, trx) : null
+      studioIds ? await anime.studios().attach(studioIds, null, trx) : null
     } catch (error) {
       trx.rollback()
 
       if (!error.sqlMessage) throw new Error(error.message)
 
-      throw new BadRequest(this.getErrors(utils, error))
+      throw new BadRequest(utils.getErrors(error))
     }
 
     trx.commit()
@@ -181,22 +181,8 @@ class AnimeController {
     })
   }
 
-  getErrors({ filterField }, { message }) {
-    const field = filterField(message)
-    const errors = [
-      {
-        message: `a foreign key constraint fails on ${field}`,
-        field: `${field}Ids`,
-        validation: 'constraint'
-      }
-    ]
-    return errors
-  }
-
   async update({ request, response, utils }) {
     const { anime } = request.get()
-
-    console.log(request.post())
 
     const {
       title,
@@ -205,8 +191,8 @@ class AnimeController {
       type,
       imageUrl,
       releaseDate,
-      genreIds,
-      studioIds
+      genreIds = null,
+      studioIds = null
     } = request.post()
 
     const trx = await Database.beginTransaction()
@@ -223,14 +209,13 @@ class AnimeController {
     await anime.save(trx)
 
     try {
-      await anime.genres().attach(genreIds, null, trx)
-      await anime.studios().attach(studioIds, null, trx)
+      genreIds ? await anime.genres().sync(genreIds, null, trx) : null
+      studioIds ? await anime.studios().sync(studioIds, null, trx) : null
     } catch (error) {
       trx.rollback()
-      //console.log('hit')
       if (!error.sqlMessage) throw new Error(error.message)
 
-      throw new BadRequest(this.getErrors(utils, error))
+      throw new BadRequest(utils.getErrors(error))
     }
 
     trx.commit()

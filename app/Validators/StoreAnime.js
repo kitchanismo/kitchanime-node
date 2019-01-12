@@ -18,11 +18,7 @@ class StoreAnime {
 
   get rules() {
     return {
-      title: 'required|min:3',
-      season: 'required',
-      studioIds: 'required',
-      genreIds: 'required',
-      type: 'required'
+      title: 'required|min:3'
     }
   }
 
