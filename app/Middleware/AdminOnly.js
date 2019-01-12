@@ -5,7 +5,7 @@ const Forbidden = use('App/Exceptions/ForbiddenException')
 class Admin {
   async handle({ request, auth }, next) {
     if (!auth.user.isAdmin) {
-      throw new Forbidden('not allow to access')
+      throw new Forbidden()
     }
     await next()
   }

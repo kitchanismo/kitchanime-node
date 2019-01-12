@@ -42,6 +42,6 @@ Factory.blueprint('App/Models/Anime', faker => {
     season: 'fall',
     type: faker.word(),
     imageUrl: faker.sentence(),
-    releaseDate: '2018-01-12 06:24:52'
+    releaseDate: faker.date()
   }
 })

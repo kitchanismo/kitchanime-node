@@ -13,7 +13,7 @@ class ForbiddenException extends LogicalException {
       status: {
         name: error.name,
         code,
-        error: error.message || 'not allow to access'
+        error: error.message || 'not authorized'
       }
     })
   }
