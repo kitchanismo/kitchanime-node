@@ -71,7 +71,7 @@ class AnimeController {
   }
 
   async paginate({ params: { num }, response, request, utils }) {
-    const { limit = 15 } = request.get()
+    const { limit = 10 } = request.get()
 
     let animes = await Anime.query()
       .with('genres')
@@ -89,8 +89,8 @@ class AnimeController {
       num
     }
 
-    const nextUrl = utils.getNextUrl(pageData)
-    const prevUrl = utils.getPrevUrl(pageData)
+    const nextUrl = `${utils.getNextUrl(pageData)}?limit=${limit}`
+    const prevUrl = `${utils.getPrevUrl(pageData)}?limit=${limit}`
 
     const count = Object.keys(animes.data).length
 
