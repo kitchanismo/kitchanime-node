@@ -42,7 +42,7 @@ class ExceptionHandler extends BaseExceptionHandler {
       status: error.status,
       url: request.url()
     }
-    if (env === 'production' || isDebug === 'false') {
+    if (env === 'production' && isDebug === 'false') {
       message = 'something failed in server'
       if (env === 'production') {
         Logger.transport('file').error(error.message, exception)
@@ -53,7 +53,7 @@ class ExceptionHandler extends BaseExceptionHandler {
       message = utils.filterJWTMessage(error.message)
     } else {
       Logger.error(
-        `message: ${error.message}, type: ${exception.name}, method: ${
+        `${error.message}, type: ${exception.name}, method: ${
           exception.method
         }, url: ${exception.url}, code:${exception.status}`
       )
