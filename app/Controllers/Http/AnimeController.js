@@ -196,6 +196,8 @@ class AnimeController {
   async update({ request, response, utils }) {
     const { anime } = request.get()
 
+    console.log(request.post())
+
     const {
       title,
       description,
@@ -221,10 +223,11 @@ class AnimeController {
     await anime.save(trx)
 
     try {
-      await anime.genres().sync(genreIds, null, trx)
-      await anime.studios().sync(studioIds, null, trx)
+      await anime.genres().attach(genreIds, null, trx)
+      await anime.studios().attach(studioIds, null, trx)
     } catch (error) {
       trx.rollback()
+      //console.log('hit')
       if (!error.sqlMessage) throw new Error(error.message)
 
       throw new BadRequest(this.getErrors(utils, error))

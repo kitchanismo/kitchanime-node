@@ -18,7 +18,7 @@ Factory.blueprint('App/Models/User', faker => {
   return {
     username: 'kitchan',
     password: '123456',
-    email: 'kitchanismo2@gmail.com',
+    email: 'kitchanismo@gmail.com',
     isAdmin: true
   }
 })
@@ -39,9 +39,9 @@ Factory.blueprint('App/Models/Anime', faker => {
   return {
     title: faker.name(),
     description: faker.paragraph(),
-    season: faker.word(),
+    season: 'fall',
     type: faker.word(),
     imageUrl: faker.sentence(),
-    releaseDate: faker.date()
+    releaseDate: '2018-01-12 06:24:52'
   }
 })

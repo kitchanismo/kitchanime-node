@@ -5,15 +5,12 @@ const studio = () => {
   Route.get('/:id', 'StudioController.show').middleware(['findStudio'])
   Route.get('/:id/animes', 'StudioController.animes').middleware(['findStudio'])
 
-  Route.post('/', 'StudioController.store').middleware([
-    'auth',
-    'validateModel'
-  ])
-  Route.put('/:id', 'StudioController.update').middleware([
-    'auth',
-    'validateModel',
-    'findStudio'
-  ])
+  Route.post('/', 'StudioController.store')
+    .middleware(['auth'])
+    .validator('SaveModel')
+  Route.put('/:id', 'StudioController.update')
+    .middleware(['auth', 'findStudio'])
+    .validator('SaveModel')
   Route.delete('/:id', 'StudioController.destroy').middleware([
     'auth',
     'findStudio'
