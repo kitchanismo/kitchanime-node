@@ -16,10 +16,9 @@ const Factory = use('Factory')
 
 Factory.blueprint('App/Models/User', faker => {
   return {
-    username: 'kitchan',
-    password: '123456',
-    email: 'kitchanismo@gmail.com',
-    isAdmin: true
+    username: 'user123',
+    password: 'user123',
+    email: 'user123@gmail.com'
   }
 })
 
