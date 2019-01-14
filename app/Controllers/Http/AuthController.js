@@ -1,17 +1,23 @@
 'use strict'
 const AuthException = use('App/Exceptions/AuthException')
+const BadRequest = use('App/Exceptions/BadRequestException')
 const User = use('App/Models/User')
 const Event = use('Event')
 
 class AuthController {
+  // POST
+
+  // POST
   async login({ request, response, auth, utils }) {
     const { username, password } = request.post()
 
     try {
-      const token = await auth.attempt(username, password)
+      const token = await auth
+        .withRefreshToken()
+        .attempt(username, password, true)
 
       return response.status(200).json({
-        token
+        jwt: token
       })
     } catch (error) {
       throw utils.has(error.name, [
@@ -23,6 +29,7 @@ class AuthController {
     }
   }
 
+  // POST
   async register({ request, response, auth }) {
     const { username, email, password } = request.post()
 
@@ -32,12 +39,12 @@ class AuthController {
       password
     })
 
-    const token = await auth.generate(user)
+    const token = await auth.withRefreshToken().generate(user, true)
 
-    Event.emit('new::user', user)
+    // Event.emit('new::user', user)
 
     return response.status(201).json({
-      token
+      jwt: token
     })
   }
 }

@@ -9,6 +9,11 @@ Route.group(use('App/Routes/Auth'))
   .prefix('auth')
   .middleware(['guest'])
 
+// token rooutes
+Route.group(use('App/Routes/Token'))
+  .prefix('token')
+  .middleware(['auth'])
+
 // user routes
 Route.group(use('App/Routes/User'))
   .prefix('api/users')
