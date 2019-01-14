@@ -4,7 +4,8 @@ const token = () => {
   Route.post('/refresh', 'TokenController.refreshToken').validator(
     'RefreshToken'
   )
-  Route.post('/revoke', 'TokenController.revokeToken')
+  Route.post('/revoke', 'TokenController.revokeToken').validator('RefreshToken')
+  Route.post('/revoke-all', 'TokenController.revokeAllTokens')
 }
 
 module.exports = token

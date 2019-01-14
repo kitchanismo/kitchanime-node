@@ -8,11 +8,9 @@ const user = () => {
   Route.get('/me', 'UserController.me')
   Route.put('/me', 'UserController.update').validator('PutUser')
   Route.get('/:id', 'UserController.show').middleware(['findUser'])
-  Route.put('/:id', 'UserController.update').middleware([
-    'admin',
-    'validateUser',
-    'findUser'
-  ])
+  // Route.put('/:id', 'UserController.update')
+  //   .middleware(['admin', 'findUser'])
+  //   .validator('PutUser')
   Route.delete('/:id', 'UserController.destroy').middleware([
     'admin',
     'findUser'

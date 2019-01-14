@@ -6,9 +6,9 @@ class PutUser {
     const { id } = this.ctx.auth.user
 
     return {
-      username: `required|unique:users,username,id,${id}`,
+      username: `required|min:6|unique:users,username,id,${id}`,
       password: 'required|min:6',
-      email: `required|unique:users,email,id,${id}`
+      email: `required|email|unique:users,email,id,${id}`
     }
   }
 

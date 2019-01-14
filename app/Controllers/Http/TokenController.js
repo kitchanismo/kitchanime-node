@@ -15,12 +15,31 @@ class TokenController {
     }
   }
 
-  async revokeTokens({ auth, request, response }) {
+  async revokeToken({ auth, request, response }) {
+    const { refreshToken } = request.post()
+
+    const hasRevoked = await auth
+      .authenticator('jwt')
+      .revokeTokens([refreshToken], true)
+
+    if (!hasRevoked) {
+      return response.status(400).json({
+        message: `refresh token is invalid`
+      })
+    }
+
+    response.status(200).json({
+      message: `revoked refresh token from userId: ${auth.user.id}`
+    })
+  }
+
+  async revokeAllTokens({ auth, response }) {
     const tokens = auth.listTokens()
 
     await auth.authenticator('jwt').revokeTokensForUser(auth.user, tokens, true)
+
     response.status(200).json({
-      message: `revoked refresh tokens from userId: ${auth.user.id}`
+      message: `revoked all refresh tokens from userId: ${auth.user.id}`
     })
   }
 }
