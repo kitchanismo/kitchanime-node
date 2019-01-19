@@ -2,6 +2,7 @@ const Route = use('Route')
 
 const anime = () => {
   Route.get('/', 'AnimeController.index')
+  Route.get('/seasons', 'AnimeController.seasons')
   Route.get('/page/:num', 'AnimeController.paginate')
   Route.get('/release/:year/', 'AnimeController.year').validator('GetYear')
   Route.get('/release/:year/:season', 'AnimeController.release').validator(

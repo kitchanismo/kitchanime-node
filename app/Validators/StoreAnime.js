@@ -10,7 +10,8 @@ class StoreAnime {
         season: 'strip_tags|escape|strip_links',
         description: 'strip_tags|escape|strip_links',
         type: 'strip_tags|escape|strip_links',
-        imageUrl: 'strip_tags|escape|strip_links'
+        imageUrl: 'strip_tags|escape|strip_links',
+        releaseDate: 'to_date'
       }
     }
     return {}
@@ -18,14 +19,16 @@ class StoreAnime {
 
   get rules() {
     return {
-      title: 'required|min:3'
+      title: 'required|min:3',
+      releaseDate: 'date'
     }
   }
 
   get messages() {
     return {
       required: '{{ field }} is required!',
-      min: '{{field}} is minimum of 3 characters!'
+      min: '{{field}} is minimum of 3 characters!',
+      date: '{{field}} not a valid date'
     }
   }
 

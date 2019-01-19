@@ -32,6 +32,38 @@ class AnimeController {
     })
   }
 
+  async seasons({ request, response }) {
+    const fall = await this.getDatesBySeason('fall')
+    const spring = await this.getDatesBySeason('spring')
+    const summer = await this.getDatesBySeason('summer')
+    const winter = await this.getDatesBySeason('winter')
+
+    const seasons = {
+      winter,
+      spring,
+      summer,
+      fall
+    }
+
+    response.status(200).json({
+      seasons
+    })
+  }
+
+  async getDatesBySeason(season) {
+    return await Anime.query()
+      .distinct('releaseDate')
+      .where({ season })
+      .whereNot({ releaseDate: '0000-00-00' })
+      .select('releaseDate')
+      .pluck('releaseDate')
+      .then(dates =>
+        dates.map(date => {
+          return date.getFullYear()
+        })
+      )
+  }
+
   async year({ response, params: { year } }) {
     const animes = await Anime.query()
       .with('genres')
