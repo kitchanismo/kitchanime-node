@@ -24,7 +24,7 @@ class AuthController {
         'UserNotFoundException',
         'PasswordMisMatchException'
       ])
-        ? new AuthException(`login failed`)
+        ? new AuthException(`Incorrect username or password`)
         : new Error(error.message)
     }
   }

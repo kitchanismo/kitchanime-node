@@ -55,8 +55,8 @@ class AnimeController {
       .distinct('releaseDate')
       .where({ season })
       .whereNot({ releaseDate: '0000-00-00' })
-      .select('releaseDate')
       .pluck('releaseDate')
+      .orderBy('releaseDate')
       .then(dates =>
         dates.map(date => {
           return date.getFullYear()
