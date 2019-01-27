@@ -41,7 +41,7 @@ class GenreController {
 
     response.status(201).json({
       message: 'genre created',
-      genre
+      id: genre.id
     })
   }
 
@@ -58,7 +58,7 @@ class GenreController {
 
     response.status(201).json({
       message: 'genre updated',
-      genre
+      id: genre.id
     })
   }
 

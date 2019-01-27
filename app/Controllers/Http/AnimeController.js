@@ -33,10 +33,10 @@ class AnimeController {
   }
 
   async seasons({ request, response }) {
-    const fall = await this.getDatesBySeason('fall')
-    const spring = await this.getDatesBySeason('spring')
-    const summer = await this.getDatesBySeason('summer')
-    const winter = await this.getDatesBySeason('winter')
+    const fall = await this.getYearsBySeason('fall')
+    const spring = await this.getYearsBySeason('spring')
+    const summer = await this.getYearsBySeason('summer')
+    const winter = await this.getYearsBySeason('winter')
 
     const seasons = {
       winter,
@@ -50,7 +50,7 @@ class AnimeController {
     })
   }
 
-  async getDatesBySeason(season) {
+  async getYearsBySeason(season) {
     return await Anime.query()
       .distinct('releaseDate')
       .where({ season })
@@ -212,7 +212,7 @@ class AnimeController {
 
     response.status(201).json({
       message: 'anime created',
-      anime
+      id: anime.id
     })
   }
 
@@ -259,7 +259,7 @@ class AnimeController {
 
     response.status(201).json({
       message: 'anime updated',
-      anime
+      id: anime.id
     })
   }
 

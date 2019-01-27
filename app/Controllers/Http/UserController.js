@@ -1,7 +1,6 @@
 'use strict'
 
 const User = use('App/Models/User')
-const BadRequest = use('App/Exceptions/BadRequestException')
 
 class UserController {
   async index({ response, request }) {
@@ -43,7 +42,7 @@ class UserController {
 
     return response.status(201).json({
       message: 'user created',
-      user
+      id: user.id
     })
   }
 
@@ -56,7 +55,7 @@ class UserController {
 
     response.status(200).json({
       message: 'user updated',
-      user
+      id: user.id
     })
   }
 

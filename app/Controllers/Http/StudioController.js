@@ -47,7 +47,7 @@ class StudioController {
 
     response.status(201).json({
       message: 'studio created',
-      studio
+      id: studio.id
     })
   }
 
@@ -64,7 +64,7 @@ class StudioController {
 
     response.status(201).json({
       message: 'studio updated',
-      studio
+      id: studio.id
     })
   }
 
