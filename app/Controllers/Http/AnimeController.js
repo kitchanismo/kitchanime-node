@@ -121,8 +121,11 @@ class AnimeController {
       num
     }
 
-    const nextUrl = `${utils.getNextUrl(pageData)}?limit=${limit}`
-    const prevUrl = `${utils.getPrevUrl(pageData)}?limit=${limit}`
+    let nextUrl = utils.getNextUrl(pageData)
+    let prevUrl = utils.getPrevUrl(pageData)
+
+    nextUrl = nextUrl ? `${nextUrl}?limit=${limit}` : null
+    prevUrl = prevUrl ? `${prevUrl}?limit=${limit}` : null
 
     const count = Object.keys(animes.data).length
 
