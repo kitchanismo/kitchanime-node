@@ -6,6 +6,7 @@ const user = () => {
     .middleware(['admin']) //, 'validateUser'
     .validator('StoreUser')
   Route.get('/me', 'UserController.me')
+  Route.get('/is-taken', 'UserController.isTaken')
   Route.put('/me', 'UserController.update').validator('PutUser')
   Route.get('/:id', 'UserController.show').middleware(['findUser'])
   // Route.put('/:id', 'UserController.update')

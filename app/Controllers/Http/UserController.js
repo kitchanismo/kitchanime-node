@@ -17,6 +17,20 @@ class UserController {
     })
   }
 
+  async isTaken({ response, request }) {
+    const { username = '', email = '' } = request.get()
+
+    const animes = await User.query()
+      .where('username', '=', username)
+      .orWhere('email', '=', email)
+      .fetch()
+      .then(data => data.toJSON())
+
+    return response.status(200).json({
+      isTaken: Object.keys(animes).length > 0
+    })
+  }
+
   async me({ response, auth }) {
     return response.status(200).json({
       user: auth.user
