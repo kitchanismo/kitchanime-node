@@ -103,11 +103,12 @@ class AnimeController {
   }
 
   async paginate({ params: { num }, response, request, utils }) {
-    const { limit = 10 } = request.get()
+    const { limit = 10, title = '' } = request.get()
 
     let animes = await Anime.query()
       .with('genres')
       .with('studios')
+      .where('title', 'like', `%${title}%`)
       .paginate(num, limit)
       .then(data => data.toJSON())
 
