@@ -1,5 +1,7 @@
 'use strict'
 const Genre = use('App/Models/Genre')
+const BadRequest = use('App/Exceptions/BadRequestException')
+
 class GenreController {
   async index({ response }) {
     const genres = await Genre.all()
@@ -34,6 +36,12 @@ class GenreController {
 
   async store({ response, request }) {
     const { name } = request.post()
+
+    const count = await Genre.query()
+      .where({ name })
+      .count('* as total')
+
+    if (count[0].total > 0) throw new BadRequest(name + ' is taken')
 
     const genre = await Genre.create({
       name
