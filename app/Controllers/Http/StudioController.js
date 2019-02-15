@@ -1,5 +1,6 @@
 'use strict'
 const Studio = use('App/Models/Studio')
+const BadRequest = use('App/Exceptions/BadRequestException')
 
 class StudioController {
   async index({ response }) {
@@ -40,6 +41,12 @@ class StudioController {
 
   async store({ response, request }) {
     const { name } = request.post()
+
+    const count = await Studio.query()
+      .where({ name })
+      .count('* as total')
+
+    if (count[0].total > 0) throw new BadRequest(name + ' is taken')
 
     const studio = await Studio.create({
       name

@@ -23,9 +23,7 @@ class TokenController {
       .revokeTokens([refreshToken], true)
 
     if (!hasRevoked) {
-      return response.status(400).json({
-        message: `refresh token is invalid`
-      })
+      throw new BadRequest('refresh token is invalid')
     }
 
     response.status(200).json({
